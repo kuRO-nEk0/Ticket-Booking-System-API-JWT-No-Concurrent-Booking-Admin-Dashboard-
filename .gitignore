@@ -34,3 +34,6 @@ backend/go-build/
 
 # Vercel / Hosting
 .vercel/
+
+# Secrets
+supabase_credentials.txt
