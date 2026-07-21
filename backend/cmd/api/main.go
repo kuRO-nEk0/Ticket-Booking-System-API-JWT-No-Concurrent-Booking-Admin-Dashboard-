@@ -11,8 +11,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"time"
 
-	"ticket-booking-backend/internal/repository"
-	"ticket-booking-backend/internal/routes"
+	"ticket-booking-backend/core/repository"
+	"ticket-booking-backend/core/routes"
 )
 
 func main() {

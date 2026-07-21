@@ -9,8 +9,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 
-	"ticket-booking-backend/internal/repository"
-	"ticket-booking-backend/internal/routes"
+	"ticket-booking-backend/core/repository"
+	"ticket-booking-backend/core/routes"
 )
 
 var app *fiber.App
