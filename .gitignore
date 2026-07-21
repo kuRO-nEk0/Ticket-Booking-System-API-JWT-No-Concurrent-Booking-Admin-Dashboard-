@@ -7,7 +7,7 @@ npm-debug.log
 yarn-error.log
 
 # Go binaries and temp files
-backend/api
+backend/api_binary
 backend/api.exe
 backend/*.test
 backend/go-build/
