@@ -30,11 +30,11 @@ func ConnectDB() {
 		})
 		log.Println("Connected Successfully to Production PostgreSQL Database")
 	} else {
-		// Fallback to SQLite for local development
-		db, err = gorm.Open(sqlite.Open("ticket_booking.db"), &gorm.Config{
+		// Fallback to SQLite for local development (and write to /tmp for serverless compatibility)
+		db, err = gorm.Open(sqlite.Open("/tmp/ticket_booking.db"), &gorm.Config{
 			Logger: logger.Default.LogMode(logger.Info),
 		})
-		log.Println("Connected Successfully to Local SQLite Database")
+		log.Println("Connected Successfully to Local SQLite Database (in /tmp)")
 	}
 
 	if err != nil {
