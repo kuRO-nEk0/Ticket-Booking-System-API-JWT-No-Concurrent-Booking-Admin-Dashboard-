@@ -1,0 +1,132 @@
+{
+  "info": {
+    "name": "Ticket Booking System API",
+    "description": "API documentation for the high-concurrency ticket booking system built in Go (Fiber).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"securepassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var data = pm.response.json();",
+                  "if (data.token) {",
+                  "    pm.environment.set(\"jwt_token\", data.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"securepassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Events & Seats",
+      "item": [
+        {
+          "name": "Get All Events",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/events",
+              "host": ["{{base_url}}"],
+              "path": ["api", "events"]
+            }
+          }
+        },
+        {
+          "name": "Get Event Seats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/events/YOUR_EVENT_ID/seats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "events", "YOUR_EVENT_ID", "seats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookings",
+      "item": [
+        {
+          "name": "Book a Seat",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event_id\": \"YOUR_EVENT_ID\",\n  \"seat_id\": \"YOUR_SEAT_ID\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/bookings",
+              "host": ["{{base_url}}"],
+              "path": ["api", "bookings"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    }
+  ]
+}

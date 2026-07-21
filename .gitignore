@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+dist/
+build/
+.svelte-kit/
+npm-debug.log
+yarn-error.log
+
+# Go binaries and temp files
+backend/api
+backend/api.exe
+backend/*.test
+backend/go-build/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# IDE and OS files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Vercel / Hosting
+.vercel/

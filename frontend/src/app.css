@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-dark-950 text-slate-200 antialiased;
+  }
+}
+
+/* Custom Utilities for Premium Glassmorphism */
+@layer utilities {
+  .glass {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl;
+  }
+  .glass-panel {
+    @apply bg-dark-900/60 backdrop-blur-xl border border-white/5 shadow-2xl;
+  }
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-400 to-indigo-600;
+  }
+}
