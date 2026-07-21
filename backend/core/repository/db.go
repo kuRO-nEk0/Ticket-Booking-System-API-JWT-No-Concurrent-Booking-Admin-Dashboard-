@@ -25,7 +25,11 @@ func ConnectDB() {
 	dsn := os.Getenv("DATABASE_URL")
 	if dsn != "" {
 		// Use PostgreSQL in Production (Render automatically injects DATABASE_URL)
-		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+		// Supabase Transaction Pooler (port 6543) requires PreferSimpleProtocol to disable prepared statements
+		db, err = gorm.Open(postgres.New(postgres.Config{
+			DSN:                  dsn,
+			PreferSimpleProtocol: true, 
+		}), &gorm.Config{
 			Logger: logger.Default.LogMode(logger.Info),
 		})
 		log.Println("Connected Successfully to Production PostgreSQL Database")
