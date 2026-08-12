@@ -12,9 +12,19 @@ import (
 func SetupRoutes(app *fiber.App) {
 	app.Get("/api/health", func(c *fiber.Ctx) error {
 		if repository.DBError != nil {
-			return c.JSON(fiber.Map{"status": "error", "error": repository.DBError.Error()})
+			return c.Status(500).JSON(fiber.Map{"status": "error", "error": repository.DBError.Error()})
 		}
 		return c.JSON(fiber.Map{"status": "ok"})
+	})
+
+	// Global DB check middleware
+	app.Use(func(c *fiber.Ctx) error {
+		if repository.DB == nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": "Database connection is not available. Please check your Supabase connection string.",
+			})
+		}
+		return c.Next()
 	})
 
 	api := app.Group("/api")
