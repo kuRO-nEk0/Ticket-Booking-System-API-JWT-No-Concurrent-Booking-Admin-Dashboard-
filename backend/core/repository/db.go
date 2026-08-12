@@ -28,7 +28,7 @@ func ConnectDB() {
 		// Supabase Transaction Pooler (port 6543) requires PreferSimpleProtocol to disable prepared statements
 		db, err = gorm.Open(postgres.New(postgres.Config{
 			DSN:                  dsn,
-			PreferSimpleProtocol: true, 
+			PreferSimpleProtocol: true,
 		}), &gorm.Config{
 			Logger: logger.Default.LogMode(logger.Info),
 		})
@@ -54,6 +54,9 @@ func ConnectDB() {
 		&models.Event{},
 		&models.Seat{},
 		&models.Booking{},
+		&models.ChatSession{},
+		&models.ChatTurn{},
+		&models.BookingDraft{},
 	)
 
 	if err != nil {

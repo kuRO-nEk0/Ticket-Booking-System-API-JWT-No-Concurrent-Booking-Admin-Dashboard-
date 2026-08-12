@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 
 	"ticket-booking-backend/core/models"
 	"ticket-booking-backend/core/repository"
@@ -38,7 +39,7 @@ func CreateEvent(c *fiber.Ctx) error {
 	if req.Title == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Event title is required"})
 	}
-	
+
 	eventDate, err := time.Parse(time.RFC3339, req.Date)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid date format. Use RFC3339."})
@@ -69,18 +70,7 @@ func CreateEvent(c *fiber.Ctx) error {
 	}
 
 	// Generate Seats
-	var seats []models.Seat
-	for i := 1; i <= req.SeatsCount; i++ {
-		seats = append(seats, models.Seat{
-			ID:         uuid.New(),
-			EventID:    eventID,
-			SeatNumber: fmt.Sprintf("A%d", i),
-			Status:     "available",
-			Version:    1,
-		})
-	}
-
-	if err := tx.Create(&seats).Error; err != nil {
+	if err := GenerateSeats(tx, eventID, req.SeatsCount); err != nil {
 		tx.Rollback()
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to generate seats"})
 	}
@@ -134,4 +124,23 @@ func DeleteEvent(c *fiber.Ctx) error {
 	tx.Commit()
 
 	return c.JSON(fiber.Map{"message": "Event deleted successfully"})
+}
+
+// GenerateSeats creates seats for an event
+func GenerateSeats(tx *gorm.DB, eventID uuid.UUID, seatsCount int) error {
+	var seats []models.Seat
+	for i := 1; i <= seatsCount; i++ {
+		seats = append(seats, models.Seat{
+			ID:         uuid.New(),
+			EventID:    eventID,
+			SeatNumber: fmt.Sprintf("A%d", i),
+			Status:     "available",
+			Version:    1,
+		})
+	}
+
+	if err := tx.Create(&seats).Error; err != nil {
+		return err
+	}
+	return nil
 }

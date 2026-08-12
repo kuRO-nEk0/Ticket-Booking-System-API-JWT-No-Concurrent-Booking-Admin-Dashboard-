@@ -81,7 +81,7 @@ func BookSeat(c *fiber.Ctx) error {
 
 	if err := repository.DB.Create(&booking).Error; err != nil {
 		log.Println("Booking creation error:", err)
-		// Note: In a production system, if this fails, we should run a compensating transaction 
+		// Note: In a production system, if this fails, we should run a compensating transaction
 		// to revert the seat status back to 'available'.
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to create booking record."})
 	}

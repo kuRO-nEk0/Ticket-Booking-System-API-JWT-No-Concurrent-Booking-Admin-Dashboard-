@@ -3,8 +3,8 @@ package middleware
 import (
 	"os"
 
-	jwtware "github.com/gofiber/jwt/v3"
 	"github.com/gofiber/fiber/v2"
+	jwtware "github.com/gofiber/jwt/v3"
 )
 
 // Protected ensures a valid JWT token is present in the Authorization header
