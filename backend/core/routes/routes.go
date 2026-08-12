@@ -9,6 +9,13 @@ import (
 
 // SetupRoutes configures all the application endpoints
 func SetupRoutes(app *fiber.App) {
+	app.Get("/api/health", func(c *fiber.Ctx) error {
+		if repository.DBError != nil {
+			return c.JSON(fiber.Map{"status": "error", "error": repository.DBError.Error()})
+		}
+		return c.JSON(fiber.Map{"status": "ok"})
+	})
+
 	api := app.Group("/api")
 
 	// Public Routes

@@ -16,6 +16,7 @@ import (
 )
 
 var DB *gorm.DB
+var DBError error
 
 // ConnectDB establishes a connection to the database and runs auto-migrations
 func ConnectDB() {
@@ -42,7 +43,9 @@ func ConnectDB() {
 	}
 
 	if err != nil {
-		log.Fatal("Failed to connect to database. \n", err)
+		log.Println("Failed to connect to database: ", err)
+		DBError = err
+		return
 	}
 
 	DB = db
@@ -60,7 +63,9 @@ func ConnectDB() {
 	)
 
 	if err != nil {
-		log.Fatal("Failed to migrate database. \n", err)
+		log.Println("Failed to migrate database: ", err)
+		DBError = err
+		return
 	}
 
 	seedDatabase()
