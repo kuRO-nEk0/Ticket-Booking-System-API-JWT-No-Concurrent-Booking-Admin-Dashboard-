@@ -5,6 +5,7 @@ import (
 
 	"ticket-booking-backend/core/controllers"
 	"ticket-booking-backend/core/middleware"
+	"ticket-booking-backend/core/repository"
 )
 
 // SetupRoutes configures all the application endpoints
